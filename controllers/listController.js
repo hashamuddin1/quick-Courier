@@ -1,0 +1,33 @@
+const { lists } = require("../models/listModel");
+
+const insertList = async (req, res) => {
+  try {
+    const createList = new lists({
+      userId: req.user._id,
+      baseCountry: req.body.baseCountry,
+      baseCity: req.body.baseCity,
+      destinationCountry: req.body.destinationCountry,
+      destinationCity: req.body.destinationCity,
+      receivingDate: req.body.receivingDate,
+      destinationLocation: req.body.destinationLocation,
+      description: req.body.description,
+      price: req.body.price,
+    });
+
+    await createList.save();
+
+    return res.status(200).send({
+      success: true,
+      message: "List has been Created Successfully",
+      data: createList,
+    });
+  } catch (e) {
+    console.log(e);
+    return res.status(400).send({
+      success: false,
+      message: "Something went wrong",
+    });
+  }
+};
+
+module.exports = { insertList };

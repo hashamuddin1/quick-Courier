@@ -5,11 +5,12 @@ const port = process.env.PORT;
 require("./config/database");
 const userRouter = require("./routers/userRoute");
 const roleRouter = require("./routers/roleRoute");
+const listRouter = require("./routers/listRoute");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use([userRouter, roleRouter]);
+app.use([userRouter, roleRouter, listRouter]);
 
 app.listen(port, () => {
   console.log(
