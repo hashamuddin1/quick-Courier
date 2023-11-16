@@ -1,4 +1,5 @@
 const { users } = require("../models/userModel");
+const { roles } = require("../models/roleModel");
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
@@ -8,21 +9,21 @@ const userSignUp = async (req, res) => {
     if (!req.body.emailAddress) {
       return res.status(400).send({
         success: false,
-        message: "This Email Address Is Required",
+        message: "The Email Address Is Required",
       });
     }
 
     if (!req.body.phoneNumber) {
       return res.status(400).send({
         success: false,
-        message: "This Phone Number Is Required",
+        message: "The Phone Number Is Required",
       });
     }
 
     if (!req.body.fullName) {
       return res.status(400).send({
         success: false,
-        message: "This First Name Is Required",
+        message: "The First Name Is Required",
       });
     }
 
@@ -46,12 +47,15 @@ const userSignUp = async (req, res) => {
       });
     }
 
+    const fetchRole = await roles.findOne({ roleName: "User" });
+
     const user = new users({
       emailAddress: req.body.emailAddress,
       phoneNumber: req.body.phoneNumber,
       fullName: req.body.fullName,
       password: req.body.password,
       country: req.body.country,
+      roleId: fetchRole._id,
     });
     let saltPassword = await bcrypt.genSalt(10);
     let encryptedPassword = await bcrypt.hash(user.password, saltPassword);

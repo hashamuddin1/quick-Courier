@@ -1,6 +1,11 @@
 const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
+  roleId: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: "roles",
+  },
   fullName: {
     type: String,
     required: true,
