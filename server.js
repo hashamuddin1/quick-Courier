@@ -6,11 +6,12 @@ require("./config/database");
 const userRouter = require("./routers/userRoute");
 const roleRouter = require("./routers/roleRoute");
 const listRouter = require("./routers/listRoute");
+const paymentRouter = require("./routers/paymentRoute");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use([userRouter, roleRouter, listRouter]);
+app.use([userRouter, roleRouter, listRouter, paymentRouter]);
 
 app.listen(port, () => {
   console.log(

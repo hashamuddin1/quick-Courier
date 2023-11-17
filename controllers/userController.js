@@ -78,7 +78,7 @@ const userSignUp = async (req, res) => {
     await user.save();
 
     const token = jwt.sign(
-      { _id: user._id, email: user.emailAddress },
+      { _id: user._id, emailAddress: user.emailAddress },
       process.env.TOKEN_KEY,
       {
         expiresIn: "30d",
