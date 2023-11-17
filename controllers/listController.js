@@ -42,7 +42,6 @@ const fetchPendingList = async (req, res) => {
       message: "Fetch All Pending List Of A User Successfully",
       data: getPendingList,
     });
-
   } catch (e) {
     console.log(e);
     return res.status(400).send({
@@ -52,4 +51,33 @@ const fetchPendingList = async (req, res) => {
   }
 };
 
-module.exports = { insertList, fetchPendingList };
+const approveList = async (req, res) => {
+  try {
+    const fetchList = await lists.findOne({ _id: req.body.listId });
+    if (!fetchList) {
+      return res.status(400).send({
+        success: false,
+        message: "This List Not Found",
+      });
+    }
+
+    await lists.findByIdAndUpdate(
+      { _id: req.body.listId },
+      { status: "Active" },
+      { new: true }
+    );
+
+    return res.status(200).send({
+      success: true,
+      message: "List has been Approved Successfully",
+    });
+  } catch (e) {
+    console.log(e);
+    return res.status(400).send({
+      success: false,
+      message: "Something went wrong",
+    });
+  }
+};
+
+module.exports = { insertList, fetchPendingList, approveList };
