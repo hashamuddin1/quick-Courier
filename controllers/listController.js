@@ -30,4 +30,26 @@ const insertList = async (req, res) => {
   }
 };
 
-module.exports = { insertList };
+const fetchPendingList = async (req, res) => {
+  try {
+    const getPendingList = await lists.find({
+      userId: req.user._id,
+      status: "Pending",
+    });
+
+    return res.status(200).send({
+      success: true,
+      message: "Fetch All Pending List Of A User Successfully",
+      data: getPendingList,
+    });
+
+  } catch (e) {
+    console.log(e);
+    return res.status(400).send({
+      success: false,
+      message: "Something went wrong",
+    });
+  }
+};
+
+module.exports = { insertList, fetchPendingList };
