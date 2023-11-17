@@ -27,6 +27,20 @@ const userSignUp = async (req, res) => {
       });
     }
 
+    if (!req.body.password) {
+      return res.status(400).send({
+        success: false,
+        message: "The Password Is Required",
+      });
+    }
+
+    if (!req.body.country) {
+      return res.status(400).send({
+        success: false,
+        message: "The Country Is Required",
+      });
+    }
+
     const checkEmail = await users.findOne({
       emailAddress: req.body.emailAddress,
     });
