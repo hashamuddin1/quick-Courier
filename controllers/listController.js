@@ -80,4 +80,29 @@ const approveList = async (req, res) => {
   }
 };
 
-module.exports = { insertList, fetchPendingList, approveList };
+const fetchAllActiveList = async (req, res) => {
+  try {
+    const getAllList = await lists.find({
+      status: "Active",
+    });
+
+    return res.status(200).send({
+      success: true,
+      message: "Fetch All Active List Successfully",
+      data: getAllList,
+    });
+  } catch (e) {
+    console.log(e);
+    return res.status(400).send({
+      success: false,
+      message: "Something went wrong",
+    });
+  }
+};
+
+module.exports = {
+  insertList,
+  fetchPendingList,
+  approveList,
+  fetchAllActiveList,
+};
