@@ -3,6 +3,8 @@ const { roles } = require("../models/roleModel");
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
+const sgMail = require("@sendgrid/mail");
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 const userSignUp = async (req, res) => {
   try {
@@ -85,11 +87,26 @@ const userSignUp = async (req, res) => {
       }
     );
 
-    return res.status(200).send({
-      success: true,
-      message: "User Registered Successfully",
-      data: user,
-      token,
+    const msg = {
+      to: req.body.emailAddress,
+      from: {
+        name: "QUICK COURIER",
+        email: process.env.SENDGRID_SENDER_EMAIL,
+      },
+      subject: "Welcome to Quick Courier",
+      templateId: process.env.SENDGRID_WELCOME_TEMPLATE_ID,
+      dynamicTemplateData: {
+        userName: req.body.fullName,
+      },
+    };
+
+    sgMail.send(msg).then(() => {
+      return res.status(200).send({
+        success: true,
+        message: "User Registered Successfully",
+        data: user,
+        token,
+      });
     });
   } catch (e) {
     console.log(e);
