@@ -162,7 +162,9 @@ const userSignIn = async (req, res) => {
 
 const getUserProfile = async (req, res) => {
   try {
-    const fetchUser = await users.findOne({ _id: req.user._id });
+    const fetchUser = await users.findOne({ _id: req.user._id }).select({
+      password: 0,
+    });
 
     return res.status(200).send({
       success: true,
