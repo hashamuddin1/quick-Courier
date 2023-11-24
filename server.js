@@ -7,11 +7,18 @@ const userRouter = require("./routers/userRoute");
 const roleRouter = require("./routers/roleRoute");
 const listRouter = require("./routers/listRoute");
 const paymentRouter = require("./routers/paymentRoute");
+const termsAndConditionRouter = require("./routers/termsAndConditionRoute");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use([userRouter, roleRouter, listRouter, paymentRouter]);
+app.use([
+  userRouter,
+  roleRouter,
+  listRouter,
+  paymentRouter,
+  termsAndConditionRouter,
+]);
 
 app.listen(port, () => {
   console.log(

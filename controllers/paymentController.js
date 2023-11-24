@@ -17,13 +17,6 @@ const createPayment = async (req, res) => {
     };
 
     stripe.tokens.create(param, function (err, token) {
-      if (err) {
-        console.log(err);
-        return res.status(400).send({
-          success: false,
-          message: "Something went wrong",
-        });
-      }
       if (token) {
         stripe.customers.createSource(
           customer.id,
