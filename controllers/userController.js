@@ -94,7 +94,7 @@ const userSignUp = async (req, res) => {
         email: "hasham@tecizeverything.com",
       },
       subject: "Welcome to Quick Courier",
-      templateId: process.env.SENDGRID_WELCOME_TEMPLATE_ID,
+      templateId: "d-3f53814d4b874ba5b2af6b993fb24a1e",
       dynamicTemplateData: {
         userName: req.body.fullName,
       },
