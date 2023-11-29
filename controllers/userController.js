@@ -4,7 +4,7 @@ require("dotenv").config();
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const sgMail = require("@sendgrid/mail");
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+sgMail.setApiKey("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");
 
 const userSignUp = async (req, res) => {
   try {
