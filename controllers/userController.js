@@ -91,7 +91,7 @@ const userSignUp = async (req, res) => {
       to: req.body.emailAddress,
       from: {
         name: "QUICK COURIER",
-        email: process.env.SENDGRID_SENDER_EMAIL,
+        email: "hasham@tecizeverything.com",
       },
       subject: "Welcome to Quick Courier",
       templateId: process.env.SENDGRID_WELCOME_TEMPLATE_ID,
