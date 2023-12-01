@@ -82,9 +82,11 @@ const approveList = async (req, res) => {
 
 const fetchAllActiveList = async (req, res) => {
   try {
-    const getAllList = await lists.find({
-      status: "Active",
-    });
+    const getAllList = await lists
+      .find({
+        status: "Active",
+      })
+      .select({ userId: 0 });
 
     return res.status(200).send({
       success: true,
