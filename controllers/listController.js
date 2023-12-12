@@ -86,7 +86,7 @@ const fetchAllActiveList = async (req, res) => {
       .find({
         status: "Active",
       })
-     // .select({ userId: 0 });
+      .select({ userId: 0 });
 
     return res.status(200).send({
       success: true,
