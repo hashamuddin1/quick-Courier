@@ -80,11 +80,35 @@ const approveList = async (req, res) => {
   }
 };
 
+const fetchAllActiveListByUser = async (req, res) => {
+  try {
+    const getAllList = await lists
+      .find({
+        status: "Active",
+        userId: req.user._id,
+      })
+      .select({ userId: 0 });
+
+    return res.status(200).send({
+      success: true,
+      message: "Fetch All Active List By A User Successfully",
+      data: getAllList,
+    });
+  } catch (e) {
+    console.log(e);
+    return res.status(400).send({
+      success: false,
+      message: "Something went wrong",
+    });
+  }
+};
+
 const fetchAllActiveList = async (req, res) => {
   try {
     const getAllList = await lists
       .find({
         status: "Active",
+        userId: { $ne: req.user._id },
       })
       .select({ userId: 0 });
 
@@ -106,5 +130,6 @@ module.exports = {
   insertList,
   fetchPendingList,
   approveList,
+  fetchAllActiveListByUser,
   fetchAllActiveList,
 };
