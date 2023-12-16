@@ -5,14 +5,18 @@ const {
   fetchPendingList,
   approveList,
   fetchAllActiveList,
-  fetchAllActiveListByUser
+  fetchAllActiveListByUser,
 } = require("../controllers/listController");
 const verifyToken = require("../middleware/verifyToken");
 
 listRouter.post("/api/insertList", [verifyToken], insertList);
 listRouter.get("/api/fetchPendingList", [verifyToken], fetchPendingList);
 listRouter.patch("/api/approveList", [verifyToken], approveList);
-listRouter.get("/api/fetchAllActiveListByUser", [verifyToken], fetchAllActiveListByUser);
-listRouter.get("/api/fetchAllActiveList", [verifyToken], fetchAllActiveList);
+listRouter.get(
+  "/api/fetchAllActiveListByUser",
+  [verifyToken],
+  fetchAllActiveListByUser
+);
+listRouter.get("/api/fetchAllActiveList", fetchAllActiveList);
 
 module.exports = listRouter;
