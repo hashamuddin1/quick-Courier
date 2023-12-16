@@ -108,7 +108,6 @@ const fetchAllActiveList = async (req, res) => {
     const getAllList = await lists
       .find({
         status: "Active",
-        userId: { $ne: req.user._id },
       })
       .select({ userId: 0 });
 
