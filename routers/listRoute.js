@@ -18,5 +18,6 @@ listRouter.get(
   fetchAllActiveListByUser
 );
 listRouter.get("/api/fetchAllActiveList", fetchAllActiveList);
+listRouter.get("/api/fetchActiveListById", fetchActiveListById);
 
 module.exports = listRouter;
