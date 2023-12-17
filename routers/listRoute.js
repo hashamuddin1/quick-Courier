@@ -6,6 +6,7 @@ const {
   approveList,
   fetchAllActiveList,
   fetchAllActiveListByUser,
+  fetchActiveListById,
 } = require("../controllers/listController");
 const verifyToken = require("../middleware/verifyToken");
 
