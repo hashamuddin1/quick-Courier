@@ -108,7 +108,6 @@ const fetchAllActiveList = async (req, res) => {
     const getAllList = await lists
       .find({
         status: "Active",
-        userId: { $ne: req.user._id },
       })
       .select({ userId: 0 });
 
@@ -126,10 +125,36 @@ const fetchAllActiveList = async (req, res) => {
   }
 };
 
+const fetchActiveListById = async (req, res) => {
+  try {
+    const getList = await lists
+      .findOne({
+        _id: req.query.listId,
+      })
+      .populate({
+        path: "userId",
+        select: "fullName emailAddress phoneNumber country",
+      });
+
+    return res.status(200).send({
+      success: true,
+      message: "Fetch Active List Successfully",
+      data: getList,
+    });
+  } catch (e) {
+    console.log(e);
+    return res.status(400).send({
+      success: false,
+      message: "Something went wrong",
+    });
+  }
+};
+
 module.exports = {
   insertList,
   fetchPendingList,
   approveList,
   fetchAllActiveListByUser,
   fetchAllActiveList,
+  fetchActiveListById,
 };
