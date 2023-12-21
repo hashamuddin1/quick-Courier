@@ -6,6 +6,10 @@ const issueSchema = new mongoose.Schema({
     required: true,
     ref: "users",
   },
+  subject: {
+    type: String,
+    required: true,
+  },
   complain: {
     type: String,
     required: true,
