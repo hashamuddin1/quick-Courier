@@ -24,6 +24,24 @@ const insertIssue = async (req, res) => {
   }
 };
 
+const fetchIssue = async (req, res) => {
+  try {
+    const getAllIssues = await issues.find();
+    return res.status(200).send({
+      success: true,
+      message: "Fetch All Issues Successfully",
+      data: getAllIssues,
+    });
+  } catch (e) {
+    console.log(e);
+    return res.status(400).send({
+      success: false,
+      message: "Something went wrong",
+    });
+  }
+};
+
 module.exports = {
   insertIssue,
+  fetchIssue,
 };
