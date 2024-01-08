@@ -3,10 +3,6 @@ const { roles } = require("../models/roleModel");
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
-const sgMail = require("@sendgrid/mail");
-sgMail.setApiKey(
-  "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"
-);
 
 const userSignUp = async (req, res) => {
   try {
@@ -89,26 +85,11 @@ const userSignUp = async (req, res) => {
       }
     );
 
-    const msg = {
-      to: req.body.emailAddress,
-      from: {
-        name: "QUICK COURIER",
-        email: "hasham@tecizeverything.com",
-      },
-      subject: "Welcome to Quick Courier",
-      templateId: "d-3f53814d4b874ba5b2af6b993fb24a1e",
-      dynamicTemplateData: {
-        userName: req.body.fullName,
-      },
-    };
-
-    sgMail.send(msg).then(() => {
-      return res.status(200).send({
-        success: true,
-        message: "User Registered Successfully",
-        data: user,
-        token,
-      });
+    return res.status(200).send({
+      success: true,
+      message: "User Registered Successfully",
+      data: user,
+      token,
     });
   } catch (e) {
     console.log(e);
