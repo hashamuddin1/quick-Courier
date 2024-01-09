@@ -7,6 +7,7 @@ const {
   fetchAllActiveList,
   fetchAllActiveListByUser,
   fetchActiveListById,
+  fetchAllList,
 } = require("../controllers/listController");
 const verifyToken = require("../middleware/verifyToken");
 
@@ -20,5 +21,6 @@ listRouter.get(
 );
 listRouter.get("/api/fetchAllActiveList", fetchAllActiveList);
 listRouter.get("/api/fetchActiveListById", fetchActiveListById);
+listRouter.get("/api/fetchAllList", fetchAllList);
 
 module.exports = listRouter;
