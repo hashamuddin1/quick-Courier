@@ -180,4 +180,24 @@ const getUserProfile = async (req, res) => {
   }
 };
 
-module.exports = { userSignUp, userSignIn, getUserProfile };
+const fetchAllUser = async (req, res) => {
+  try {
+    const fetchUser = await users.find().select({
+      password: 0,
+    });
+
+    return res.status(200).send({
+      success: true,
+      message: "All User has been Fetched Successfully",
+      data: fetchUser,
+    });
+  } catch (e) {
+    console.log(e);
+    return res.status(400).send({
+      success: false,
+      message: "Something went wrong",
+    });
+  }
+};
+
+module.exports = { userSignUp, userSignIn, getUserProfile, fetchAllUser };
