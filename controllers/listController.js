@@ -1,4 +1,6 @@
 const { lists } = require("../models/listModel");
+const { users } = require("../models/userModel");
+const { issues } = require("../models/issueModel");
 
 const insertList = async (req, res) => {
   try {
@@ -171,6 +173,33 @@ const fetchAllList = async (req, res) => {
   }
 };
 
+const dashBoardKPI = async (req, res) => {
+  try {
+    const fetchAllUser = await users.find().select({ _id: 1 });
+    const fetchAllActiveList = await lists
+      .find({ status: "Active" })
+      .select({ _id: 1 });
+    const fetchAllPendingList = await lists
+      .find({ status: "Pending" })
+      .select({ _id: 1 });
+    const fetchAllIssue = await issues.find().select({ _id: 1 });
+    return res.status(200).send({
+      success: true,
+      message: "Fetch KPI Successfully",
+      totalUsers: fetchAllUser.length,
+      totalActiveList: fetchAllActiveList.length,
+      totalPendingList: fetchAllPendingList.length,
+      totalIssue: fetchAllIssue.length,
+    });
+  } catch (e) {
+    console.log(e);
+    return res.status(400).send({
+      success: false,
+      message: "Something went wrong",
+    });
+  }
+};
+
 module.exports = {
   insertList,
   fetchPendingList,
@@ -179,4 +208,5 @@ module.exports = {
   fetchAllActiveList,
   fetchActiveListById,
   fetchAllList,
+  dashBoardKPI,
 };

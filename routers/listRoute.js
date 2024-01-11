@@ -8,12 +8,15 @@ const {
   fetchAllActiveListByUser,
   fetchActiveListById,
   fetchAllList,
+  dashBoardKPI,
 } = require("../controllers/listController");
 const verifyToken = require("../middleware/verifyToken");
+const verifyAdmin = require("../middleware/verifyAdmin");
 
 listRouter.post("/api/insertList", [verifyToken], insertList);
 listRouter.get("/api/fetchPendingList", [verifyToken], fetchPendingList);
-listRouter.patch("/api/approveList", [verifyToken], approveList);
+listRouter.patch("/api/approveList", [verifyAdmin], approveList);
+listRouter.get("/api/dashBoardKPI", [verifyAdmin], dashBoardKPI);
 listRouter.get(
   "/api/fetchAllActiveListByUser",
   [verifyToken],
