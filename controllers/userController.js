@@ -200,4 +200,32 @@ const fetchAllUser = async (req, res) => {
   }
 };
 
-module.exports = { userSignUp, userSignIn, getUserProfile, fetchAllUser };
+const deleteUser = async (req, res) => {
+  try {
+    const getUser = await users.findOne({ _id: req.query.userId });
+    if (!getUser) {
+      return next(CustomError.createError("User Does Not Exist", 400));
+    }
+
+    await users.findOneAndDelete({ _id: req.query.userId });
+
+    return res.status(200).send({
+      success: true,
+      message: "User has been Deleted Successfully",
+    });
+  } catch (e) {
+    console.log(e);
+    return res.status(400).send({
+      success: false,
+      message: "Something went wrong",
+    });
+  }
+};
+
+module.exports = {
+  userSignUp,
+  userSignIn,
+  getUserProfile,
+  fetchAllUser,
+  deleteUser,
+};

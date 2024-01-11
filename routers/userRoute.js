@@ -6,12 +6,15 @@ const {
   userSignIn,
   getUserProfile,
   fetchAllUser,
+  deleteUser,
 } = require("../controllers/userController");
 const verifyToken = require("../middleware/verifyToken");
+const verifyAdmin = require("../middleware/verifyAdmin");
 
 userRouter.post("/api/userSignUp", userSignUp);
 userRouter.post("/api/userSignIn", userSignIn);
 userRouter.get("/api/getUserProfile", [verifyToken], getUserProfile);
-userRouter.get("/api/fetchAllUser", [verifyToken], fetchAllUser);
+userRouter.get("/api/fetchAllUser", [verifyAdmin], fetchAllUser);
+userRouter.delete("/api/deleteUser", [verifyAdmin], deleteUser);
 
 module.exports = userRouter;
