@@ -1,6 +1,7 @@
 const { lists } = require("../models/listModel");
 const { users } = require("../models/userModel");
 const { issues } = require("../models/issueModel");
+const { roles } = require("../models/roleModel");
 
 const insertList = async (req, res) => {
   try {
@@ -183,6 +184,13 @@ const dashBoardKPI = async (req, res) => {
       .find({ status: "Pending" })
       .select({ _id: 1 });
     const fetchAllIssue = await issues.find().select({ _id: 1 });
+    const fetchTurnOver = await lists.find().select({ price: 1 });
+    let totalPrice = 0;
+
+    for (let i = 0; i < fetchTurnOver.length; i++) {
+      totalPrice += fetchTurnOver[i].price;
+    }
+    const fetchAllRoles = await roles.find().select({ _id: 1 });
     return res.status(200).send({
       success: true,
       message: "Fetch KPI Successfully",
@@ -190,6 +198,8 @@ const dashBoardKPI = async (req, res) => {
       totalActiveList: fetchAllActiveList.length,
       totalPendingList: fetchAllPendingList.length,
       totalIssue: fetchAllIssue.length,
+      totalTurnOver: totalPrice,
+      totalRoles: fetchAllRoles.length,
     });
   } catch (e) {
     console.log(e);
