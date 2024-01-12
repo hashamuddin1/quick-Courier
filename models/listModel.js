@@ -38,6 +38,10 @@ const listSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  weight: {
+    type: Number,
+    required: true,
+  },
   status: {
     type: String,
     required: true,

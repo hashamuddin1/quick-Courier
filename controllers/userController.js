@@ -3,6 +3,8 @@ const { roles } = require("../models/roleModel");
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
+const PROCESS = process.env;
+const stripe = require("stripe")(PROCESS.STRIPE_SECRET_KEY);
 
 const userSignUp = async (req, res) => {
   try {
@@ -31,6 +33,13 @@ const userSignUp = async (req, res) => {
       return res.status(400).send({
         success: false,
         message: "The Password Is Required",
+      });
+    }
+
+    if (!req.body.accountNumber) {
+      return res.status(400).send({
+        success: false,
+        message: "The Account Number Is Required",
       });
     }
 
@@ -63,6 +72,44 @@ const userSignUp = async (req, res) => {
 
     const fetchRole = await roles.findOne({ roleName: "User" });
 
+    const account = await stripe.accounts.create({
+      type: "custom",
+      country: "US",
+      email: req.body.emailAddress,
+      capabilities: {
+        card_payments: { requested: true },
+        transfers: { requested: true },
+      },
+      business_profile: {
+        name: req.body.fullName,
+        support_email: req.body.emailAddress,
+      },
+      business_type: "individual",
+      individual: {
+        verification: {
+          additional_document: {
+            front: "file_identity_document_success",
+          },
+          document: {
+            front: "file_identity_document_success",
+          },
+        },
+        email: req.body.emailAddress,
+      },
+      external_account: {
+        account_number: req.body.accountNumber,
+        object: "bank_account",
+        country: "US",
+        currency: "usd",
+        routing_number: "110000000",
+      },
+
+      tos_acceptance: {
+        date: Math.floor(Date.now() / 1000),
+        ip: req.connection.remoteAddress,
+      },
+    });
+
     const user = new users({
       emailAddress: req.body.emailAddress,
       phoneNumber: req.body.phoneNumber,
@@ -70,6 +117,7 @@ const userSignUp = async (req, res) => {
       password: req.body.password,
       country: req.body.country,
       roleId: fetchRole._id,
+      accountId: account.id,
     });
     let saltPassword = await bcrypt.genSalt(10);
     let encryptedPassword = await bcrypt.hash(user.password, saltPassword);

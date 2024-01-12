@@ -15,6 +15,7 @@ const insertList = async (req, res) => {
       destinationLocation: req.body.destinationLocation,
       description: req.body.description,
       price: req.body.price,
+      weight: req.body.weight,
     });
 
     await createList.save();
