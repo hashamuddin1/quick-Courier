@@ -3,7 +3,6 @@ const { roles } = require("../models/roleModel");
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
-const PROCESS = process.env;
 
 const userSignUp = async (req, res) => {
   try {
