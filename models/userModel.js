@@ -31,10 +31,6 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  accountId: {
-    type: String,
-    required: true,
-  },
 });
 
 const users = new mongoose.model("users", userSchema);
