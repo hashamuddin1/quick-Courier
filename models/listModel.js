@@ -45,7 +45,7 @@ const listSchema = new mongoose.Schema({
   status: {
     type: String,
     required: true,
-    enum: ["Active", "Pending"],
+    enum: ["Active", "Pending", "Done"],
     default: "Pending",
   },
 });

@@ -34,13 +34,6 @@ const userSignUp = async (req, res) => {
       });
     }
 
-    if (!req.body.accountNumber) {
-      return res.status(400).send({
-        success: false,
-        message: "The Account Number Is Required",
-      });
-    }
-
     if (!req.body.country) {
       return res.status(400).send({
         success: false,

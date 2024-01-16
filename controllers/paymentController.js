@@ -1,5 +1,6 @@
 const PROCESS = process.env;
 const stripe = require("stripe")(PROCESS.STRIPE_SECRET_KEY);
+const { lists } = require("../models/listModel");
 
 const createPayment = async (req, res) => {
   try {
@@ -58,4 +59,34 @@ const createPayment = async (req, res) => {
   }
 };
 
-module.exports = { createPayment };
+const releasePayment = async (req, res) => {
+  try {
+    const fetchList = await lists.findOne({ _id: req.body.listId });
+    if (!fetchList) {
+      return res.status(400).send({
+        success: false,
+        message: "This List Not Found",
+      });
+    }
+
+    await lists.findOneAndUpdate(
+      { _id: req.body.listId },
+      {
+        status: "Done",
+      }
+    );
+
+    return res.status(200).send({
+      success: true,
+      message: "Payment has been Transfered",
+    });
+  } catch (e) {
+    console.log(e);
+    return res.status(400).send({
+      success: false,
+      message: "Something went wrong",
+    });
+  }
+};
+
+module.exports = { createPayment, releasePayment };
