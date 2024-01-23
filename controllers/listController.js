@@ -156,7 +156,7 @@ const fetchActiveListById = async (req, res) => {
 
 const fetchAllList = async (req, res) => {
   try {
-    const getList = await lists.findOne().populate({
+    const getList = await lists.find().populate({
       path: "userId",
       select: "fullName emailAddress phoneNumber country",
     });
