@@ -5,11 +5,11 @@ const {
   createTermsAndCondition,
   getTermsAndCondition,
 } = require("../controllers/termsAndConditionController");
-const verifyToken = require("../middleware/verifyToken");
+const verifyAdmin = require("../middleware/verifyAdmin");
 
 termsAndConditionRouter.post(
   "/api/createTermsAndCondition",
-  [verifyToken],
+  [verifyAdmin],
   createTermsAndCondition
 );
 termsAndConditionRouter.get("/api/getTermsAndCondition", getTermsAndCondition);
