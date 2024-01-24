@@ -26,7 +26,10 @@ const insertIssue = async (req, res) => {
 
 const fetchIssue = async (req, res) => {
   try {
-    const getAllIssues = await issues.find();
+    const getAllIssues = await issues.find().populate({
+      path: "userId",
+      select: "fullName emailAddress",
+    });
     return res.status(200).send({
       success: true,
       message: "Fetch All Issues Successfully",
