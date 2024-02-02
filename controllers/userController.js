@@ -222,10 +222,28 @@ const deleteUser = async (req, res) => {
   }
 };
 
+const deleteAccountByUser = async (req, res) => {
+  try {
+    await users.findOneAndDelete({ _id: req.user._id });
+
+    return res.status(200).send({
+      success: true,
+      message: "Account has been Deleted Successfully",
+    });
+  } catch (e) {
+    console.log(e);
+    return res.status(400).send({
+      success: false,
+      message: "Something went wrong",
+    });
+  }
+};
+
 module.exports = {
   userSignUp,
   userSignIn,
   getUserProfile,
   fetchAllUser,
   deleteUser,
+  deleteAccountByUser,
 };
