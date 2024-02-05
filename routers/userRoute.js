@@ -8,6 +8,7 @@ const {
   fetchAllUser,
   deleteUser,
   deleteAccountByUser,
+  fetchAllUserByUser,
 } = require("../controllers/userController");
 const verifyToken = require("../middleware/verifyToken");
 const verifyAdmin = require("../middleware/verifyAdmin");
@@ -22,5 +23,6 @@ userRouter.delete(
   [verifyToken],
   deleteAccountByUser
 );
+userRouter.get("/api/fetchAllUserByUser", [verifyToken], fetchAllUserByUser);
 
 module.exports = userRouter;
