@@ -41,6 +41,20 @@ const userSignUp = async (req, res) => {
       });
     }
 
+    if (!req.body.state) {
+      return res.status(400).send({
+        success: false,
+        message: "The State Is Required",
+      });
+    }
+
+    if (!req.body.city) {
+      return res.status(400).send({
+        success: false,
+        message: "The City Is Required",
+      });
+    }
+
     const checkEmail = await users.findOne({
       emailAddress: req.body.emailAddress,
     });
@@ -69,6 +83,8 @@ const userSignUp = async (req, res) => {
       fullName: req.body.fullName,
       password: req.body.password,
       country: req.body.country,
+      state: req.body.state,
+      city: req.body.city,
       roleId: fetchRole._id,
     });
     let saltPassword = await bcrypt.genSalt(10);
@@ -182,9 +198,14 @@ const getUserProfile = async (req, res) => {
 
 const fetchAllUser = async (req, res) => {
   try {
-    const fetchUser = await users.find().select({
-      password: 0,
-    });
+    const fetchRole = await roles.findOne({ roleName: "User" });
+    const fetchUser = await users
+      .find({
+        roleId: fetchRole._id,
+      })
+      .select({
+        password: 0,
+      });
 
     return res.status(200).send({
       success: true,
