@@ -286,6 +286,44 @@ const fetchAllUserByUser = async (req, res) => {
   }
 };
 
+const updateLocationByUser = async (req, res) => {
+  try {
+    if (!req.body.state) {
+      return res.status(400).send({
+        success: false,
+        message: "The State Is Required",
+      });
+    }
+
+    if (!req.body.city) {
+      return res.status(400).send({
+        success: false,
+        message: "The City Is Required",
+      });
+    }
+
+    await users.findOneAndUpdate(
+      { _id: req.user._id },
+      {
+        state: req.body.state,
+        city: req.body.city,
+      },
+      { new: true }
+    );
+
+    return res.status(200).send({
+      success: true,
+      message: "Location Updated Successfully",
+    });
+  } catch (e) {
+    console.log(e);
+    return res.status(400).send({
+      success: false,
+      message: "Something went wrong",
+    });
+  }
+};
+
 module.exports = {
   userSignUp,
   userSignIn,
@@ -294,4 +332,5 @@ module.exports = {
   deleteUser,
   deleteAccountByUser,
   fetchAllUserByUser,
+  updateLocationByUser,
 };
