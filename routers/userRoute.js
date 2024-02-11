@@ -10,6 +10,7 @@ const {
   deleteAccountByUser,
   fetchAllUserByUser,
   updateLocationByUser,
+  fetchUserByPhoneNumber,
 } = require("../controllers/userController");
 const verifyToken = require("../middleware/verifyToken");
 const verifyAdmin = require("../middleware/verifyAdmin");
@@ -29,6 +30,11 @@ userRouter.put(
   "/api/updateLocationByUser",
   [verifyToken],
   updateLocationByUser
+);
+userRouter.get(
+  "/api/fetchUserByPhoneNumber",
+  [verifyToken],
+  fetchUserByPhoneNumber
 );
 
 module.exports = userRouter;

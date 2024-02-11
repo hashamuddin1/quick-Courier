@@ -324,6 +324,32 @@ const updateLocationByUser = async (req, res) => {
   }
 };
 
+const fetchUserByPhoneNumber = async (req, res) => {
+  try {
+    const fetchRole = await roles.findOne({ roleName: "User" });
+    const fetchUser = await users
+      .findOne({
+        roleId: fetchRole._id,
+        phoneNumber: req.query.phoneNumber,
+      })
+      .select({
+        password: 0,
+      });
+
+    return res.status(200).send({
+      success: true,
+      message: "User has been Fetched Successfully",
+      data: fetchUser,
+    });
+  } catch (e) {
+    console.log(e);
+    return res.status(400).send({
+      success: false,
+      message: "Something went wrong",
+    });
+  }
+};
+
 module.exports = {
   userSignUp,
   userSignIn,
@@ -333,4 +359,5 @@ module.exports = {
   deleteAccountByUser,
   fetchAllUserByUser,
   updateLocationByUser,
+  fetchUserByPhoneNumber,
 };
