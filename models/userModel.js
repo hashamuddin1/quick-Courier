@@ -39,6 +39,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  lastUpdateLocation: {
+    type: Date,
+    required: true,
+  },
 });
 
 const users = new mongoose.model("users", userSchema);

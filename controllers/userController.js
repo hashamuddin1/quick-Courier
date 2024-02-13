@@ -86,6 +86,7 @@ const userSignUp = async (req, res) => {
       state: req.body.state,
       city: req.body.city,
       roleId: fetchRole._id,
+      lastUpdateLocation: new Date(),
     });
     let saltPassword = await bcrypt.genSalt(10);
     let encryptedPassword = await bcrypt.hash(user.password, saltPassword);
@@ -307,6 +308,7 @@ const updateLocationByUser = async (req, res) => {
       {
         state: req.body.state,
         city: req.body.city,
+        lastUpdateLocation: new Date(),
       },
       { new: true }
     );
