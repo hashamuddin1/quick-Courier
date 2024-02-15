@@ -346,10 +346,17 @@ const updateLocationByUser = async (req, res) => {
 const fetchUserByPhoneNumber = async (req, res) => {
   try {
     const fetchRole = await roles.findOne({ roleName: "User" });
+    const phoneNumber = `${req.query.phoneNumber}`
+      .replace(/[^\d-]/g, "")
+      .trim();
+    const formattedPhoneNumber = phoneNumber.startsWith("+")
+      ? phoneNumber
+      : `+${phoneNumber}`;
+    console.log(formattedPhoneNumber);
     const fetchUser = await users
       .findOne({
         roleId: fetchRole._id,
-        phoneNumber: req.query.phoneNumber,
+        phoneNumber: formattedPhoneNumber,
       })
       .select({
         password: 0,
