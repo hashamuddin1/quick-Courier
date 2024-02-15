@@ -1,5 +1,8 @@
 const { users } = require("../models/userModel");
 const { roles } = require("../models/roleModel");
+const { lists } = require("../models/listModel");
+const { issues } = require("../models/issueModel");
+const { applyList } = require("../models/applyListModel");
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
@@ -231,6 +234,12 @@ const deleteUser = async (req, res) => {
 
     await users.findOneAndDelete({ _id: req.query.userId });
 
+    await lists.deleteMany({ userId: req.query.userId });
+
+    await issues.deleteMany({ userId: req.query.userId });
+
+    await applyList.deleteMany({ userId: req.query.userId });
+
     return res.status(200).send({
       success: true,
       message: "User has been Deleted Successfully",
@@ -247,6 +256,14 @@ const deleteUser = async (req, res) => {
 const deleteAccountByUser = async (req, res) => {
   try {
     await users.findOneAndDelete({ _id: req.user._id });
+
+    await lists.deleteMany({ userId: req.user._id });
+
+    await issues.deleteMany({ userId: req.user._id });
+
+    await applyList.deleteMany({
+      $or: [{ ownerId: req.user._id }, { userId: req.user._id }],
+    });
 
     return res.status(200).send({
       success: true,
